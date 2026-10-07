@@ -56,7 +56,7 @@ export const KpiGrid = () => {
   const sparkData3 = generateSparklineData().map(d => ({value: d.value * Math.random()}));
   const sparkData4 = generateSparklineData().map(d => ({value: d.value + 20}));
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-2xl">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm lg:gap-space-md mb-space-xl lg:mb-space-2xl">
       <KpiCard 
         title="Focus Session" 
         badge="ACTIVE" 
