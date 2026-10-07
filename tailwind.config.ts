@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        "xs": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+      },
       spacing: {
         "gutter": "1rem",
         "margin": "1.5rem",
@@ -102,5 +105,6 @@ export default {
   },
   plugins: [],
 } satisfies Config;
+
 
 
