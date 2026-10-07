@@ -17,7 +17,7 @@ export const MainVisualContainer = () => {
         <span className="font-code-inline text-code-inline text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded">REAL-TIME SYNC</span>
       </div>
       
-      <div className="w-full min-h-[400px] rounded-2xl bg-surface-container-lowest shadow-sm border border-surface-container-high flex flex-col items-center justify-center relative group p-space-lg">
+      <div className="w-full min-h-[300px] lg:min-h-[400px] rounded-2xl bg-surface-container-lowest shadow-sm border border-surface-container-high flex flex-col items-center justify-center relative group p-space-lg">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-surface-container-low/50 via-surface-container-lowest to-surface-container-lowest opacity-50 pointer-events-none"></div>
         <div className="relative z-10 w-full flex flex-col gap-space-md">
           <div className="flex items-center justify-between w-full">
