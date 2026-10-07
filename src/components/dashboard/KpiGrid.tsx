@@ -1,5 +1,10 @@
+"use client";
+
 import React from "react";
 import { cn } from "@/lib/utils";
+import { Sparkline } from "@/components/ui/Sparkline";
+import { generateSparklineData } from "@/data";
+import { useTranslation } from "@/context/LanguageContext";
 
 interface KpiCardProps {
   title: string;
@@ -47,10 +52,8 @@ export const KpiCard = ({ title, badge, value, targetLabel, targetValue, progres
   );
 };
 
-import { Sparkline } from "@/components/ui/Sparkline";
-import { generateSparklineData } from "@/data";
-
 export const KpiGrid = () => {
+  const { t } = useTranslation();
   const sparkData1 = generateSparklineData();
   const sparkData2 = generateSparklineData().reverse();
   const sparkData3 = generateSparklineData().map(d => ({value: d.value * Math.random()}));
@@ -58,39 +61,39 @@ export const KpiGrid = () => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm lg:gap-space-md mb-space-xl lg:mb-space-2xl">
       <KpiCard 
-        title="Focus Session" 
-        badge="ACTIVE" 
+        title={t.dashboard.focusSession} 
+        badge={t.common.active} 
         value="04h 12m" 
-        targetLabel="TARGET: 06h 00m" 
-        targetValue="70.0% COMPLETED" 
+        targetLabel={`${t.common.target}: 06h 00m`} 
+        targetValue={`70.0% ${t.common.completed}`} 
         progress={70} 
       >
         <Sparkline data={sparkData1} />
       </KpiCard>
       <KpiCard 
-        title="Efficiency Score" 
+        title={t.dashboard.efficiencyScore} 
         trend="up"
         badge="+4.2%" 
         value="84.6%" 
-        targetLabel="BASELINE: 72.0%" 
-        targetValue="SYS OK" 
+        targetLabel={`${t.common.baseline}: 72.0%`} 
+        targetValue={t.common.sysOk} 
       >
         <Sparkline data={sparkData2} />
       </KpiCard>
       <KpiCard 
-        title="Ocio Cooldown" 
+        title={t.dashboard.ocioCooldown} 
         value="01h 45m" 
-        targetLabel="ALLOWANCE: 02h 30m" 
-        targetValue="REMAINING" 
+        targetLabel={`${t.common.allowance}: 02h 30m`} 
+        targetValue={t.common.remaining} 
         progress={30} 
       >
         <Sparkline data={sparkData3} />
       </KpiCard>
       <KpiCard 
-        title="Memory Core Res" 
+        title={t.dashboard.memoryCoreRes} 
         badge="SYS_RAM" 
         value="1.82 GB" 
-        targetLabel="ALLOC: RSS Peak 2.1 GB" 
+        targetLabel={`${t.common.alloc}: RSS Peak 2.1 GB`} 
         targetValue="38% SYS" 
         progress={38} 
       >

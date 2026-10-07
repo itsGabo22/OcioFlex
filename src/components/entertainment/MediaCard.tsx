@@ -3,11 +3,15 @@ import { MediaActivity } from "@/data";
 
 interface MediaCardProps {
   activity: MediaActivity;
+  onClick?: () => void;
 }
 
-export const MediaCard = ({ activity }: MediaCardProps) => {
+export const MediaCard = ({ activity, onClick }: MediaCardProps) => {
   return (
-    <button className="group w-full text-left flex flex-col justify-between p-space-lg rounded-3xl bg-surface-container-lowest/90 backdrop-blur-sm border border-surface-container-highest shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-accent-primary/30 transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:-translate-y-1">
+    <button 
+      onClick={onClick}
+      className="group w-full text-left flex flex-col justify-between p-space-lg rounded-3xl bg-surface-container-lowest/90 backdrop-blur-sm border border-surface-container-highest shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-accent-primary/30 transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:-translate-y-1"
+    >
       
       {/* Header */}
       <div className="flex items-center gap-space-sm w-full mb-space-xl">

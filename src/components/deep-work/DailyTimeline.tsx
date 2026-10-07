@@ -1,16 +1,21 @@
+"use client";
+
 import React from "react";
 import { FocusSession } from "@/data/mock-sessions";
+import { useTranslation } from "@/context/LanguageContext";
 
 interface DailyTimelineProps {
   sessions: FocusSession[];
 }
 
 export const DailyTimeline = ({ sessions }: DailyTimelineProps) => {
+  const { t } = useTranslation();
+
   if (!sessions || sessions.length === 0) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center gap-2 opacity-50 text-center p-space-xl">
         <span className="material-symbols-outlined text-[32px] text-on-surface-variant">hourglass_empty</span>
-        <p className="font-body-compact text-body-compact text-on-surface-variant">No completed sessions today.</p>
+        <p className="font-body-compact text-body-compact text-on-surface-variant">{t.deepWork.noSessionsYet}</p>
         <p className="font-code-inline text-code-inline text-on-surface-variant/70">AWAITING FOCUS</p>
       </div>
     );

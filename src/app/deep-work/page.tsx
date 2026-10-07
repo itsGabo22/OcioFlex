@@ -1,8 +1,12 @@
+"use client";
+
 import { SessionTimer } from "@/components/deep-work/SessionTimer";
 import { DailyTimeline } from "@/components/deep-work/DailyTimeline";
 import { getDailySessions } from "@/data";
+import { useTranslation } from "@/context/LanguageContext";
 
 export default function DeepWorkPage() {
+  const { t } = useTranslation();
   const sessions = getDailySessions();
 
   return (
@@ -14,7 +18,7 @@ export default function DeepWorkPage() {
       {/* SECONDARY AREA: Daily Timeline */}
       <aside className="w-full lg:w-[380px] flex flex-col bg-surface-container-lowest rounded-2xl border border-surface-container-high p-space-lg shadow-sm">
         <h3 className="font-label-ui text-label-ui uppercase tracking-wider text-on-surface-variant font-semibold mb-space-lg pb-space-sm border-b border-surface-container-high flex justify-between items-center">
-          <span>Today's Sessions</span>
+          <span>{t.deepWork.sessionHistory}</span>
           <span className="bg-surface-container-high px-1.5 py-0.5 rounded text-on-surface">{sessions.length}</span>
         </h3>
         

@@ -2,10 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/context/LanguageContext";
+import { useToast } from "@/context/ToastContext";
 
 const DEFAULT_TIME = 45 * 60; // 45 minutes
 
 export const SessionTimer = () => {
+  const { t } = useTranslation();
+  const { toast } = useToast();
+  
   const [endTime, setEndTime] = useState<number | null>(null);
   const [remaining, setRemaining] = useState(DEFAULT_TIME);
   const [taskName, setTaskName] = useState("");
@@ -20,18 +25,19 @@ export const SessionTimer = () => {
       if (now >= endTime) {
         setRemaining(0);
         setEndTime(null);
-        // Handle completion
+        toast(t.feedback.sessionEnded, "success");
       } else {
         setRemaining(Math.ceil((endTime - now) / 1000));
       }
     }, 200);
     
     return () => clearInterval(interval);
-  }, [endTime]);
+  }, [endTime, t.feedback.sessionEnded, toast]);
 
   const toggleTimer = () => {
     if (isRunning) {
       setEndTime(null); // Pause
+      toast(t.feedback.sessionPaused, "default");
     } else {
       if (remaining === 0) {
         // Restart from default if finished
@@ -41,6 +47,7 @@ export const SessionTimer = () => {
         // Resume
         setEndTime(Date.now() + remaining * 1000);
       }
+      toast(remaining === DEFAULT_TIME ? t.feedback.sessionStarted : t.feedback.sessionResumed, "success");
     }
   };
 
@@ -48,6 +55,7 @@ export const SessionTimer = () => {
     setEndTime(null);
     setRemaining(DEFAULT_TIME);
     setTaskName("");
+    toast(t.feedback.sessionEnded, "default");
   };
 
   const minutes = Math.floor(remaining / 60);
@@ -67,7 +75,7 @@ export const SessionTimer = () => {
       <div className="relative z-10 w-full flex flex-col items-center gap-space-xl">
         <div className="font-code-inline text-code-inline px-2 py-1 rounded bg-surface-container-low text-on-surface-variant font-medium uppercase tracking-widest flex items-center gap-2">
           {isRunning && <span className="w-2 h-2 rounded-full bg-accent-primary animate-pulse"></span>}
-          {isRunning ? "Focus Active" : "Deep Work Ready"}
+          {isRunning ? t.deepWork.focusSessionActive : t.navigation.deepWork}
         </div>
         
         {/* TIMER DISPLAY */}
@@ -84,7 +92,7 @@ export const SessionTimer = () => {
         <div className="flex items-center gap-space-md mt-space-sm">
           <button 
             onClick={toggleTimer}
-            aria-label={isRunning ? "Pause Session" : "Start Session"}
+            aria-label={isRunning ? t.common.pause : t.common.startSession}
             className={cn(
               "w-16 h-16 rounded-full flex items-center justify-center shadow-md hover:scale-105 transition-all outline-none focus-visible:ring-4 focus-visible:ring-accent-primary/30",
               isRunning 
@@ -100,7 +108,7 @@ export const SessionTimer = () => {
           <button 
             onClick={stopTimer}
             disabled={!isRunning && remaining === DEFAULT_TIME}
-            aria-label="Stop and Reset Timer"
+            aria-label={t.common.endSession}
             className="w-12 h-12 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center hover:bg-surface-container-highest transition-colors disabled:opacity-50 disabled:hover:bg-surface-container-high outline-none focus-visible:ring-2 focus-visible:ring-on-surface-variant"
           >
             <span className="material-symbols-outlined text-[24px]">stop</span>
@@ -112,7 +120,7 @@ export const SessionTimer = () => {
           type="text" 
           value={taskName}
           onChange={(e) => setTaskName(e.target.value)}
-          placeholder="What is your focus?" 
+          placeholder={t.deepWork.currentTask} 
           className="mt-space-xl w-full max-w-md bg-transparent border-b-2 border-surface-container-high focus:border-accent-primary outline-none px-2 py-3 text-center font-title-lg text-title-lg text-on-surface placeholder:text-on-surface-variant/40 transition-colors"
         />
       </div>
