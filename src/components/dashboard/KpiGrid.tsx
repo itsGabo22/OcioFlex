@@ -14,7 +14,7 @@ interface KpiCardProps {
 
 export const KpiCard = ({ title, badge, value, targetLabel, targetValue, progress, trend }: KpiCardProps) => {
   return (
-    <div className="p-space-md rounded-2xl bg-surface-container-lowest shadow-sm border border-surface-container-high flex flex-col justify-between min-h-[140px] transition-colors">
+    <div className="p-space-md rounded-2xl bg-surface-container-lowest shadow-sm border border-surface-container-high flex flex-col justify-between min-h-[160px] transition-colors">
       <div className="flex flex-col gap-1">
         <div className="flex items-center justify-between">
           <span className="font-label-ui text-label-ui text-on-surface-variant uppercase font-semibold tracking-wider">{title}</span>
