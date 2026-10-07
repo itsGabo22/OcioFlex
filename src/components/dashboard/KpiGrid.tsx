@@ -12,7 +12,7 @@ interface KpiCardProps {
   trend?: "up" | "down" | "neutral";
 }
 
-export const KpiCard = ({ title, badge, value, targetLabel, targetValue, progress, trend }: KpiCardProps) => {
+export const KpiCard = ({ title, badge, value, targetLabel, targetValue, progress, trend, children }: KpiCardProps) => {
   return (
     <div className="p-space-md rounded-2xl bg-surface-container-lowest shadow-sm border border-surface-container-high flex flex-col justify-between gap-1 min-h-[160px] transition-colors">
       <div className="flex flex-col gap-1">
