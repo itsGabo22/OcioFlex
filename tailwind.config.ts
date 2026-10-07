@@ -8,6 +8,20 @@ export default {
   ],
   theme: {
     extend: {
+      spacing: {
+        "gutter": "1rem",
+        "margin": "1.5rem",
+        "space-2xs": "0.25rem",
+        "space-xs": "0.5rem",
+        "space-sm": "0.75rem",
+        "space-md": "1rem",
+        "space-base": "1.25rem",
+        "space-lg": "1.5rem",
+        "space-xl": "2rem",
+        "space-2xl": "2.5rem",
+        "space-3xl": "3rem",
+        "space-4xl": "4rem",
+      },
       fontFamily: {
         "body-default": ["Inter", "sans-serif"],
         "code-inline": ["JetBrains Mono", "monospace"],
@@ -88,4 +102,5 @@ export default {
   },
   plugins: [],
 } satisfies Config;
+
 
