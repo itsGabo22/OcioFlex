@@ -8,6 +8,28 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        "body-default": ["Inter", "sans-serif"],
+        "code-inline": ["JetBrains Mono", "monospace"],
+        "code-metric": ["JetBrains Mono", "monospace"],
+        "title-md": ["Inter", "sans-serif"],
+        "body-compact": ["Inter", "sans-serif"],
+        "headline-sm": ["Inter", "sans-serif"],
+        "display-lg": ["Plus Jakarta Sans", "sans-serif"],
+        "label-ui": ["Inter", "sans-serif"],
+        "display-md": ["Inter", "sans-serif"],
+      },
+      fontSize: {
+        "body-default": ["13px", { lineHeight: "18px", fontWeight: "400" }],
+        "code-inline": ["11px", { lineHeight: "14px", fontWeight: "400" }],
+        "code-metric": ["12px", { lineHeight: "16px", letterSpacing: "-0.01em", fontWeight: "500" }],
+        "title-md": ["15px", { lineHeight: "20px", letterSpacing: "-0.005em", fontWeight: "600" }],
+        "body-compact": ["12px", { lineHeight: "16px", fontWeight: "400" }],
+        "headline-sm": ["18px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "600" }],
+        "display-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }],
+        "label-ui": ["11px", { lineHeight: "14px", letterSpacing: "0.02em", fontWeight: "500" }],
+        "display-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.015em", fontWeight: "600" }],
+      },
       colors: {
         background: "var(--color-background)",
         surface: "var(--color-surface)",
@@ -66,3 +88,4 @@ export default {
   },
   plugins: [],
 } satisfies Config;
+
