@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/theme/ThemeContext";
 
@@ -11,6 +13,7 @@ interface SidebarProps {
 
 export const Sidebar = ({ isCollapsed, setIsCollapsed }: SidebarProps) => {
   const { mode, toggleMode } = useTheme();
+  const pathname = usePathname();
 
   return (
     <aside
@@ -60,11 +63,11 @@ export const Sidebar = ({ isCollapsed, setIsCollapsed }: SidebarProps) => {
             <span className="font-code-inline text-code-inline text-on-surface-variant/70">05 NODES</span>
           </div>
           <nav className="flex flex-col gap-0.5 mt-2">
-            <NavItem icon="terminal" label="Foco Workspace" active={mode === "foco"} collapsed={isCollapsed} tag="RUNNING" />
-            <NavItem icon="headphones" label="Ocio Lounge" active={mode === "ocio"} collapsed={isCollapsed} tag="MEDIA" />
-            <NavItem icon="monitoring" label="Process Telemetry" collapsed={isCollapsed} tag="SYS" />
-            <NavItem icon="rule_settings" label="Context Rules" collapsed={isCollapsed} tag="CFG" />
-            <NavItem icon="dataset" label="Analytics Log" collapsed={isCollapsed} tag="DB" />
+            <NavItem href="/deep-work" icon="terminal" label="Deep Work" active={pathname === "/deep-work"} collapsed={isCollapsed} tag="RUNNING" />
+            <NavItem href="#" icon="headphones" label="Ocio Lounge" active={mode === "ocio"} collapsed={isCollapsed} tag="MEDIA" />
+            <NavItem href="/" icon="monitoring" label="Dashboard" active={pathname === "/"} collapsed={isCollapsed} tag="SYS" />
+            <NavItem href="#" icon="rule_settings" label="Context Rules" collapsed={isCollapsed} tag="CFG" />
+            <NavItem href="#" icon="dataset" label="Analytics Log" collapsed={isCollapsed} tag="DB" />
           </nav>
         </div>
       </div>
@@ -124,10 +127,9 @@ export const Sidebar = ({ isCollapsed, setIsCollapsed }: SidebarProps) => {
   );
 };
 
-const NavItem = ({ icon, label, active, collapsed, tag }: { icon: string, label: string, active?: boolean, collapsed: boolean, tag?: string }) => {
+const NavItem = ({ href = "#", icon, label, active, collapsed, tag }: { href?: string, icon: string, label: string, active?: boolean, collapsed: boolean, tag?: string }) => {
   return (
-    <a
-      href="#"
+    <Link href={href}
       className={cn(
         "group relative flex items-center justify-between rounded transition-all outline-none",
         collapsed ? "px-1 py-1.5 justify-center w-9" : "px-2.5 py-1.5 w-full",
@@ -156,6 +158,6 @@ const NavItem = ({ icon, label, active, collapsed, tag }: { icon: string, label:
           </div>
         </div>
       )}
-    </a>
+    </Link>
   );
 };

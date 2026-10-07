@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/theme/ThemeContext';
+import { AppShell } from "@/components/shell/AppShell";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains-mono' });
@@ -26,7 +27,9 @@ export default function RootLayout({
         className={`${inter.variable} ${jetbrainsMono.variable} ${jakartaSans.variable} antialiased bg-surface text-on-surface`}
       >
         <ThemeProvider>
-          {children}
+          <AppShell>
+            {children}
+          </AppShell>
         </ThemeProvider>
       </body>
     </html>
