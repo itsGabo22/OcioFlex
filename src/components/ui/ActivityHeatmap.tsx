@@ -1,7 +1,6 @@
 import React from 'react';
 import { ActivityCell } from '@/data';
 export const ActivityHeatmap = ({ data }: { data: ActivityCell[] }) => {
-  // Convert 1D array to weeks for a grid layout
   const weeks: ActivityCell[][] = [];
   let currentWeek: ActivityCell[] = [];
   
@@ -15,16 +14,21 @@ export const ActivityHeatmap = ({ data }: { data: ActivityCell[] }) => {
 
   return (
     <div className="w-full overflow-x-auto select-none">
-      <div className="flex gap-1.5 min-w-max">
+      <div className="flex gap-[4px] min-w-max py-2 px-1">
         {weeks.map((week, i) => (
-          <div key={i} className="flex flex-col gap-1.5">
+          <div key={i} className="flex flex-col gap-[4px]">
             {week.map((cell, j) => (
-              <div key={j} className="w-[14px] h-[14px] rounded-[3px] bg-surface-container-highest relative">
+              <button 
+                key={j} 
+                className="w-4 h-4 rounded-[4px] bg-surface-container-highest relative group hover:scale-110 hover:z-10 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary transition-all duration-200"
+                title={`${cell.date}: ${Math.round(cell.intensity * 100)}% Activity`}
+                aria-label={`Activity on ${cell.date}`}
+              >
                 <div 
-                  className="absolute inset-0 bg-accent-primary rounded-[inherit] transition-all duration-300"
+                  className="absolute inset-0 bg-accent-primary rounded-[inherit] transition-colors duration-300"
                   style={{ opacity: cell.intensity }}
                 />
-              </div>
+              </button>
             ))}
           </div>
         ))}
