@@ -52,7 +52,7 @@ export const SessionTimer = () => {
 
   const minutes = Math.floor(remaining / 60);
   const seconds = remaining % 60;
-  const timeString = \`\${minutes.toString().padStart(2, '0')}:\${seconds.toString().padStart(2, '0')}\`;
+  const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
   return (
     <section className="flex-1 flex flex-col items-center justify-center bg-surface-container-lowest rounded-2xl border border-surface-container-high p-space-2xl shadow-sm relative overflow-hidden group">

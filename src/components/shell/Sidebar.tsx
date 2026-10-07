@@ -64,7 +64,7 @@ export const Sidebar = ({ isCollapsed, setIsCollapsed }: SidebarProps) => {
           </div>
           <nav className="flex flex-col gap-0.5 mt-2">
             <NavItem href="/deep-work" icon="terminal" label="Deep Work" active={pathname === "/deep-work"} collapsed={isCollapsed} tag="RUNNING" />
-            <NavItem href="#" icon="headphones" label="Ocio Lounge" active={mode === "ocio"} collapsed={isCollapsed} tag="MEDIA" />
+            <NavItem href="/entertainment" icon="headphones" label="Entertainment" active={pathname === "/entertainment"} collapsed={isCollapsed} tag="MEDIA" />
             <NavItem href="/" icon="monitoring" label="Dashboard" active={pathname === "/"} collapsed={isCollapsed} tag="SYS" />
             <NavItem href="#" icon="rule_settings" label="Context Rules" collapsed={isCollapsed} tag="CFG" />
             <NavItem href="#" icon="dataset" label="Analytics Log" collapsed={isCollapsed} tag="DB" />
