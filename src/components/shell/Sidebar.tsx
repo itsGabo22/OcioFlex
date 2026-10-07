@@ -15,7 +15,7 @@ export const Sidebar = ({ isCollapsed, setIsCollapsed }: SidebarProps) => {
   return (
     <aside
       className={cn(
-        "fixed left-0 top-10 bottom-0 bg-surface-container-lowest z-40 flex flex-col justify-between py-space-sm shadow-xs transition-all duration-300 overflow-hidden",
+        "fixed left-0 top-10 bottom-0 bg-surface-container-lowest z-40 flex flex-col justify-between py-space-sm shadow-xs transition-all duration-300 ",
         isCollapsed ? "w-[68px]" : "w-[260px]"
       )}
     >
@@ -103,12 +103,19 @@ export const Sidebar = ({ isCollapsed, setIsCollapsed }: SidebarProps) => {
           ) : (
             <button
               onClick={() => toggleMode()}
-              className="w-full flex items-center justify-center py-2 rounded bg-surface-container-lowest text-accent-primary shadow-xs transition-colors"
-              title="Toggle Mode"
+              className="w-full flex items-center justify-center py-2 rounded bg-surface-container-lowest text-accent-primary shadow-xs transition-all outline-none focus-visible:ring-2 focus-visible:ring-accent-primary group relative"
             >
               <span className="material-symbols-outlined text-[18px]">
                 {mode === "foco" ? "bolt" : "sports_esports"}
               </span>
+              <div className="absolute left-[calc(100%+16px)] top-1/2 -translate-y-1/2 z-50 pointer-events-none opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-visible:opacity-100 group-focus-visible:visible transition-all duration-200 translate-x-1 group-hover:translate-x-0 group-focus-visible:translate-x-0">
+                <div className="relative bg-surface-container-lowest rounded-xl shadow-xl px-space-sm py-2 w-max border border-surface-container-highest text-left">
+                  <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-surface-container-lowest border-l border-b border-surface-container-highest rotate-45"></div>
+                  <div className="relative z-10 flex items-center gap-2">
+                    <span className="font-title-md text-title-md font-bold text-on-surface whitespace-nowrap">Toggle Mode</span>
+                  </div>
+                </div>
+              </div>
             </button>
           )}
         </div>
@@ -122,13 +129,12 @@ const NavItem = ({ icon, label, active, collapsed, tag }: { icon: string, label:
     <a
       href="#"
       className={cn(
-        "flex items-center justify-between rounded transition-all",
+        "group relative flex items-center justify-between rounded transition-all outline-none",
         collapsed ? "px-1 py-1.5 justify-center w-9" : "px-2.5 py-1.5 w-full",
         active 
           ? "bg-accent-container text-on-accent-container font-semibold shadow-sm" 
-          : "text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface"
+          : "text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:bg-surface-container-high"
       )}
-      title={collapsed ? label : undefined}
     >
       <div className={cn("flex items-center gap-2", collapsed && "justify-center w-full")}>
         <span className="material-symbols-outlined text-[18px]">{icon}</span>
@@ -138,6 +144,17 @@ const NavItem = ({ icon, label, active, collapsed, tag }: { icon: string, label:
         <span className="font-code-inline text-code-inline px-1 py-0.5 rounded bg-surface-container-high text-on-surface-variant">
           {tag}
         </span>
+      )}
+      {collapsed && (
+        <div className="absolute left-[calc(100%+16px)] top-1/2 -translate-y-1/2 z-50 pointer-events-none opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-visible:opacity-100 group-focus-visible:visible transition-all duration-200 translate-x-1 group-hover:translate-x-0 group-focus-visible:translate-x-0">
+          <div className="relative bg-surface-container-lowest rounded-xl shadow-xl p-space-sm flex flex-col gap-1.5 w-[190px] border border-surface-container-highest text-left">
+            <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-surface-container-lowest border-l border-b border-surface-container-highest rotate-45"></div>
+            <div className="flex items-center justify-between relative z-10">
+              <span className="font-title-md text-title-md font-bold text-on-surface whitespace-nowrap">{label}</span>
+              {tag && <span className="font-label-ui text-label-ui px-1.5 py-0.5 rounded-full bg-accent-container text-on-accent-container font-bold">{tag}</span>}
+            </div>
+          </div>
+        </div>
       )}
     </a>
   );
