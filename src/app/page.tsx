@@ -1,4 +1,4 @@
-import { AppShell } from "@/components/shell/AppShell";
+import { AppShell } from '@/components/shell/AppShell';
 
 export default function Home() {
   return (
@@ -8,7 +8,7 @@ export default function Home() {
           OCIOFLEX SYSTEM
         </h1>
         <p className="font-body-default text-body-default text-on-surface-variant max-w-2xl">
-          One Product — Two Personalities. High-contrast light-mode context switching architecture.
+          One Product â€” Two Personalities. High-contrast light-mode context switching architecture.
         </p>
       </div>
     </AppShell>
