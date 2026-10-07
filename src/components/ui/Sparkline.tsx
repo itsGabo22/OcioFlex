@@ -11,9 +11,12 @@ export const Sparkline = ({ data }: { data: SparklinePoint[] }) => {
     return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
   }).join(' ');
   
+  const fillData = `${pathData} L 100 100 L 0 100 Z`;
+  
   return (
     <div className="w-full h-full flex items-end">
       <svg className="w-full h-full overflow-visible text-accent-primary" preserveAspectRatio="none" viewBox="0 0 100 100">
+        <path d={fillData} fill="currentColor" opacity="0.1" className="transition-colors duration-300" />
         <path d={pathData} fill="none" stroke="currentColor" strokeWidth="2" vectorEffect="non-scaling-stroke" className="transition-colors duration-300" />
       </svg>
     </div>
