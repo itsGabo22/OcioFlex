@@ -1,6 +1,10 @@
 import { BreakTracker } from "@/components/entertainment/BreakTracker";
+import { MediaCard } from "@/components/entertainment/MediaCard";
+import { getMediaActivities } from "@/data";
 
 export default function EntertainmentPage() {
+  const activities = getMediaActivities();
+
   return (
     <div className="flex flex-col w-full max-w-[1600px] mx-auto min-h-[calc(100vh-80px)] gap-space-xl animate-fade-in duration-500 pb-space-2xl">
       
@@ -18,12 +22,9 @@ export default function EntertainmentPage() {
           </span>
         </div>
         
-        {/* MEDIA GRID PLACEHOLDER */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-space-lg">
-          {[1, 2, 3, 4].map((item) => (
-            <div key={item} className="h-48 rounded-3xl bg-surface-container-lowest border border-surface-container-high opacity-50 flex items-center justify-center">
-              <span className="font-code-inline text-code-inline text-on-surface-variant">MEDIA CARD {item}</span>
-            </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-space-md lg:gap-space-lg">
+          {activities.map((activity) => (
+            <MediaCard key={activity.id} activity={activity} />
           ))}
         </div>
       </section>
