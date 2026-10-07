@@ -8,6 +8,7 @@ interface KpiCardProps {
   targetLabel: string;
   targetValue: string;
   progress?: number;
+  children?: React.ReactNode;
   trend?: "up" | "down" | "neutral";
 }
 
@@ -36,7 +37,7 @@ export const KpiCard = ({ title, badge, value, targetLabel, targetValue, progres
           <span>{targetLabel}</span>
           <span className={cn(progress !== undefined && "text-accent-primary font-semibold transition-colors")}>{targetValue}</span>
         </div>
-        {progress !== undefined && (
+        {children ? children : progress !== undefined && (
           <div className="w-full h-1.5 rounded-full bg-surface-container-high overflow-hidden">
             <div className="h-full bg-accent-primary rounded-full transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div>
           </div>
@@ -46,7 +47,14 @@ export const KpiCard = ({ title, badge, value, targetLabel, targetValue, progres
   );
 };
 
+import { Sparkline } from "@/components/ui/Sparkline";
+import { generateSparklineData } from "@/data";
+
 export const KpiGrid = () => {
+  const sparkData1 = generateSparklineData();
+  const sparkData2 = generateSparklineData().reverse();
+  const sparkData3 = generateSparklineData().map(d => ({value: d.value * Math.random()}));
+  const sparkData4 = generateSparklineData().map(d => ({value: d.value + 20}));
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-2xl">
       <KpiCard 
@@ -56,7 +64,9 @@ export const KpiGrid = () => {
         targetLabel="TARGET: 06h 00m" 
         targetValue="70.0% COMPLETED" 
         progress={70} 
-      />
+      >
+        <Sparkline data={sparkData1} />
+      </KpiCard>
       <KpiCard 
         title="Efficiency Score" 
         trend="up"
@@ -64,14 +74,18 @@ export const KpiGrid = () => {
         value="84.6%" 
         targetLabel="BASELINE: 72.0%" 
         targetValue="SYS OK" 
-      />
+      >
+        <Sparkline data={sparkData2} />
+      </KpiCard>
       <KpiCard 
         title="Ocio Cooldown" 
         value="01h 45m" 
         targetLabel="ALLOWANCE: 02h 30m" 
         targetValue="REMAINING" 
         progress={30} 
-      />
+      >
+        <Sparkline data={sparkData3} />
+      </KpiCard>
       <KpiCard 
         title="Memory Core Res" 
         badge="SYS_RAM" 
@@ -79,7 +93,9 @@ export const KpiGrid = () => {
         targetLabel="ALLOC: RSS Peak 2.1 GB" 
         targetValue="38% SYS" 
         progress={38} 
-      />
+      >
+        <Sparkline data={sparkData4} />
+      </KpiCard>
     </div>
   );
 };
