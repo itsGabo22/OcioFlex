@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import { useTranslation } from "@/context/LanguageContext";
 
 export const Header = () => {
   return (
