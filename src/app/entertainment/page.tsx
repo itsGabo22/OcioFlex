@@ -1,16 +1,12 @@
-import React from "react";
+import { BreakTracker } from "@/components/entertainment/BreakTracker";
 
 export default function EntertainmentPage() {
   return (
     <div className="flex flex-col w-full max-w-[1600px] mx-auto min-h-[calc(100vh-80px)] gap-space-xl animate-fade-in duration-500 pb-space-2xl">
       
       {/* TOP REGION: Break Tracker */}
-      <section className="w-full flex items-center justify-center p-space-2xl min-h-[40vh]">
-        {/* PLACEHOLDER */}
-        <div className="flex flex-col items-center gap-space-lg">
-          <div className="font-title-lg text-title-lg text-on-surface-variant font-medium">Break Tracker Placeholder</div>
-          <div className="font-display-md text-display-md text-accent-primary">00:00:00</div>
-        </div>
+      <section className="w-full flex items-center justify-center pt-space-xl pb-space-lg min-h-[35vh]">
+        <BreakTracker />
       </section>
 
       {/* SECONDARY REGION: Media Grid */}
