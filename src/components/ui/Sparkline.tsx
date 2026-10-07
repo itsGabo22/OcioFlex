@@ -13,8 +13,8 @@ export const Sparkline = ({ data }: { data: SparklinePoint[] }) => {
   
   return (
     <div className="w-full h-full flex items-end">
-      <svg className="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 100 100">
-        <path d={pathData} fill="none" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+      <svg className="w-full h-full overflow-visible text-accent-primary" preserveAspectRatio="none" viewBox="0 0 100 100">
+        <path d={pathData} fill="none" stroke="currentColor" strokeWidth="2" vectorEffect="non-scaling-stroke" className="transition-colors duration-300" />
       </svg>
     </div>
   );
