@@ -1,0 +1,85 @@
+import React from "react";
+import { cn } from "@/lib/utils";
+
+interface KpiCardProps {
+  title: string;
+  badge?: string;
+  value: string;
+  targetLabel: string;
+  targetValue: string;
+  progress?: number;
+  trend?: "up" | "down" | "neutral";
+}
+
+export const KpiCard = ({ title, badge, value, targetLabel, targetValue, progress, trend }: KpiCardProps) => {
+  return (
+    <div className="p-space-md rounded-2xl bg-surface-container-lowest shadow-sm border border-surface-container-high flex flex-col justify-between min-h-[140px] transition-colors">
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center justify-between">
+          <span className="font-label-ui text-label-ui text-on-surface-variant uppercase font-semibold tracking-wider">{title}</span>
+          {badge && (
+            <span className="font-code-inline text-code-inline px-1.5 py-0.5 rounded bg-accent-container text-on-accent-container font-semibold transition-colors">
+              {badge}
+            </span>
+          )}
+          {trend === "up" && (
+            <span className="font-code-inline text-code-inline text-accent-primary flex items-center font-semibold transition-colors">
+              <span className="material-symbols-outlined text-[13px] mr-0.5">trending_up</span> {badge}
+            </span>
+          )}
+        </div>
+        <span className="font-display-md text-display-md text-on-surface font-bold tracking-tight mt-1">{value}</span>
+      </div>
+      
+      <div className="mt-space-md flex flex-col gap-1.5">
+        <div className="flex justify-between items-center font-code-inline text-code-inline text-on-surface-variant">
+          <span>{targetLabel}</span>
+          <span className={cn(progress !== undefined && "text-accent-primary font-semibold transition-colors")}>{targetValue}</span>
+        </div>
+        {progress !== undefined && (
+          <div className="w-full h-1.5 rounded-full bg-surface-container-high overflow-hidden">
+            <div className="h-full bg-accent-primary rounded-full transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export const KpiGrid = () => {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-2xl">
+      <KpiCard 
+        title="Focus Session" 
+        badge="ACTIVE" 
+        value="04h 12m" 
+        targetLabel="TARGET: 06h 00m" 
+        targetValue="70.0% COMPLETED" 
+        progress={70} 
+      />
+      <KpiCard 
+        title="Efficiency Score" 
+        trend="up"
+        badge="+4.2%" 
+        value="84.6%" 
+        targetLabel="BASELINE: 72.0%" 
+        targetValue="SYS OK" 
+      />
+      <KpiCard 
+        title="Ocio Cooldown" 
+        value="01h 45m" 
+        targetLabel="ALLOWANCE: 02h 30m" 
+        targetValue="REMAINING" 
+        progress={30} 
+      />
+      <KpiCard 
+        title="Memory Core Res" 
+        badge="SYS_RAM" 
+        value="1.82 GB" 
+        targetLabel="ALLOC: RSS Peak 2.1 GB" 
+        targetValue="38% SYS" 
+        progress={38} 
+      />
+    </div>
+  );
+};
