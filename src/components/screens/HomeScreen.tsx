@@ -267,8 +267,8 @@ function WeekChart({ week, locale }: { week: { ts: number; minutes: number; futu
       <div className="flex-1 mt-5 grid grid-cols-7 gap-2 items-end min-h-[170px]">
         {week.map((d) => (
           <div key={d.ts} className="group flex flex-col items-center gap-2 h-full justify-end" role="img" aria-label={fmt(t.home.weekBar, { day: wdLong.format(d.ts), n: d.minutes })}>
-            <span className={cn("mono text-[11px] tabular-nums transition-opacity", d.today ? "text-ink font-semibold" : "text-ink-2 opacity-0 group-hover:opacity-100")}>{d.future ? "" : d.minutes}</span>
-            <div className="w-full flex-1 flex items-end">
+            <div className="w-full flex-1 flex flex-col items-center justify-end gap-1.5">
+              <span className={cn("mono text-[11px] leading-none transition-opacity", d.today ? "text-ink font-semibold" : "text-ink-2 opacity-0 group-hover:opacity-100")}>{d.future ? "" : d.minutes}</span>
               <div
                 className={cn("w-full rounded-[7px] transition-[height] duration-700 ease-[var(--ease)]", d.today ? "bg-accent" : d.future ? "bg-transparent border border-dashed border-line-strong" : "bg-[color-mix(in_srgb,var(--accent)_32%,var(--surface))] group-hover:bg-[color-mix(in_srgb,var(--accent)_55%,var(--surface))]")}
                 style={{ height: d.future ? 10 : `${Math.max(4, (d.minutes / max) * 100)}%` }}

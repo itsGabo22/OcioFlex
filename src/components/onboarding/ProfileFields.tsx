@@ -62,7 +62,7 @@ export function NameField({ p, set, big }: { p: Profile; set: Set; big?: boolean
         onKeyDown={() => stage.pulse()}
         placeholder={t.auth.namePh}
         autoComplete="nickname"
-        className={big ? "display w-full bg-transparent border-0 border-b-2 border-line-strong focus:border-accent outline-none pb-2 text-[34px] text-ink placeholder:text-ink-3 transition-colors" : fieldClass}
+        className={big ? "underline-field display w-full bg-transparent border-0 border-b-2 border-line-strong focus:border-accent outline-none pb-2 text-[34px] text-ink placeholder:text-ink-3 transition-colors" : fieldClass}
         style={big ? { fontWeight: 420, letterSpacing: "-0.01em" } : undefined}
       />
     </div>

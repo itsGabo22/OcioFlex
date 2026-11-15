@@ -276,8 +276,10 @@ function StageOrb({ low }: { low: boolean }) {
     u.uBurst.value = c.burst;
     u.uRingSpeed.value = stage.palette === "ocio" ? 0.42 : 0.24;
     u.uPR.value = state.gl.getPixelRatio();
-    (u.uColA.value as THREE.Color).lerp(pal.a, kc);
-    (u.uColB.value as THREE.Color).lerp(pal.b, kc);
+    // particles switch palette almost at once: a slow RGB blend between teal and coral passes through grey
+    const kp = ease(1e-6, dt);
+    (u.uColA.value as THREE.Color).lerp(pal.a, kp);
+    (u.uColB.value as THREE.Color).lerp(pal.b, kp);
   });
 
   return (

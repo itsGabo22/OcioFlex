@@ -58,7 +58,7 @@ export function FocusScreen() {
               disabled={!!focusTimer}
               placeholder={t.focus.taskPlaceholder}
               maxLength={90}
-              className="display w-full bg-transparent border-0 border-b-2 border-line-strong focus:border-accent outline-none pb-2 text-[26px] placeholder:text-ink-3 transition-colors disabled:text-ink-2 disabled:border-line"
+              className="underline-field display w-full bg-transparent border-0 border-b-2 border-line-strong focus:border-accent outline-none pb-2 text-[26px] placeholder:text-ink-3 transition-colors disabled:text-ink-2 disabled:border-line"
               style={{ fontWeight: 420, letterSpacing: "-0.005em" }}
             />
           </label>

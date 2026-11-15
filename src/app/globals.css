@@ -113,6 +113,10 @@ html {
     outline: none;
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 38%, transparent);
   }
+  /* underline fields show focus with their accent underline instead of a box */
+  .underline-field:focus-visible {
+    box-shadow: 0 2px 0 0 var(--accent);
+  }
   a:focus-visible,
   button:focus-visible {
     box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px color-mix(in srgb, var(--accent) 70%, transparent);
