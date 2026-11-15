@@ -3,56 +3,37 @@
 import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useApp } from "@/context/AppContext";
+import { hasWebGL, prefersReducedMotion } from "@/lib/stage";
+import { GlBoundary } from "@/components/auth/StageCanvas";
 
-const OrbScene = dynamic(() => import("./OrbScene"), { ssr: false });
+// same chunk as the login stage: one lazy three.js bundle for the whole app
+const HeroScene = dynamic(() => import("@/components/three").then((m) => m.HeroScene), { ssr: false });
 
-function hasWebGL() {
-  try {
-    const c = document.createElement("canvas");
-    return !!(c.getContext("webgl2") || c.getContext("webgl"));
-  } catch {
-    return false;
-  }
-}
-
-class Boundary extends React.Component<{ fallback: React.ReactNode; children: React.ReactNode }, { failed: boolean }> {
-  state = { failed: false };
-  static getDerivedStateFromError() {
-    return { failed: true };
-  }
-  render() {
-    return this.state.failed ? this.props.fallback : this.props.children;
-  }
-}
-
-export function OrbFallback() {
+export function OrbFallback({ ratio }: { ratio: number }) {
   return (
     <div className="absolute inset-0 grid place-items-center" aria-hidden>
-      <div className="blob h-[300px] w-[300px]" />
+      <div className="relative h-[280px] w-[280px]">
+        <div className="blob h-full w-full" />
+        <div className="orbit-ring" style={{ ["--ratio" as string]: `${Math.round(ratio * 100)}%` }} />
+      </div>
     </div>
   );
 }
 
-/** Home hero: lazy WebGL orb with a CSS twin for reduced-motion / no WebGL / lost context. */
+/** Home hero: lazy WebGL orb whose ring shows today's focus:leisure balance, with a CSS twin as fallback. */
 export function HeroOrb({ ratio }: { ratio: number }) {
   const { mood, t } = useApp();
   const host = useRef<HTMLDivElement>(null);
   const [mode, setMode] = useState<"pending" | "webgl" | "css">("pending");
   const [visible, setVisible] = useState(true);
-  const [tabOn, setTabOn] = useState(true);
 
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || !hasWebGL()) {
+    if (prefersReducedMotion() || !hasWebGL()) {
       const id = window.setTimeout(() => setMode("css"), 0);
       return () => clearTimeout(id);
     }
-    // mount the heavy chunk after first paint
-    const idle = (window as unknown as { requestIdleCallback?: (cb: () => void) => number }).requestIdleCallback;
-    const id = idle ? idle(() => setMode("webgl")) : window.setTimeout(() => setMode("webgl"), 120);
-    return () => {
-      if (!idle) clearTimeout(id);
-    };
+    const id = window.setTimeout(() => setMode("webgl"), 60);
+    return () => clearTimeout(id);
   }, []);
 
   useEffect(() => {
@@ -60,7 +41,7 @@ export function HeroOrb({ ratio }: { ratio: number }) {
     if (!el) return;
     const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { threshold: 0.01 });
     io.observe(el);
-    const vis = () => setTabOn(!document.hidden);
+    const vis = () => setVisible(!document.hidden);
     document.addEventListener("visibilitychange", vis);
     return () => {
       io.disconnect();
@@ -69,12 +50,12 @@ export function HeroOrb({ ratio }: { ratio: number }) {
   }, []);
 
   return (
-    <div ref={host} role="img" aria-label={t.home.heroAlt} className="absolute inset-y-0 right-0 w-[56%] min-w-[340px]">
-      {mode === "css" && <OrbFallback />}
+    <div ref={host} role="img" aria-label={t.home.heroAlt} className="absolute inset-y-0 right-0 w-[52%] min-w-[340px]">
+      {mode === "css" && <OrbFallback ratio={ratio} />}
       {mode === "webgl" && (
-        <Boundary fallback={<OrbFallback />}>
-          <OrbScene mood={mood} ratio={ratio} running={visible && tabOn} onLost={() => setMode("css")} />
-        </Boundary>
+        <GlBoundary onError={() => setMode("css")}>
+          <HeroScene palette={mood} ratio={ratio} running={visible} onLost={() => setMode("css")} />
+        </GlBoundary>
       )}
     </div>
   );
