@@ -6,7 +6,6 @@
   "permissions": [
     "core:default",
     "core:window:allow-show",
-    "store:default",
     {
       "identifier": "opener:allow-open-url",
       "allow": [
