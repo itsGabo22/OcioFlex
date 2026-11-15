@@ -231,11 +231,20 @@ function Toasts() {
   );
 }
 
+/** The scrolling page; keyed by route so scroll position and the top shadow reset per page. */
+function Main({ children }: { children: React.ReactNode }) {
+  const [scrolled, setScrolled] = useState(false);
+  return (
+    <main className={cn("flex-1 min-w-0 h-full overflow-y-auto scroll-shadow", scrolled && "is-scrolled")} onScroll={(e) => setScrolled((e.target as HTMLElement).scrollTop > 4)}>
+      <div className="page">{children}</div>
+    </main>
+  );
+}
+
 function Shell({ children }: { children: React.ReactNode }) {
   const { t, setMood, ui, setUi, startTour } = useApp();
   const path = usePathname();
   const [narrow, setNarrow] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const on = () => setNarrow(window.innerWidth < 1100);
@@ -291,9 +300,7 @@ function Shell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </aside>
-      <main key={path} className={cn("flex-1 min-w-0 h-full overflow-y-auto scroll-shadow", scrolled && "is-scrolled")} onScroll={(e) => setScrolled((e.target as HTMLElement).scrollTop > 4)}>
-        <div className="page">{children}</div>
-      </main>
+      <Main key={path}>{children}</Main>
     </div>
   );
 }

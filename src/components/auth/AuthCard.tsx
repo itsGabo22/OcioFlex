@@ -48,12 +48,18 @@ export function AuthCard() {
   const [lockLeft, setLockLeft] = useState(0);
   const uid = useId();
   const firstRef = useRef<HTMLInputElement>(null);
+  const pwRef = useRef<HTMLInputElement>(null);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
     const f = window.setTimeout(() => firstRef.current?.focus(), 60);
     return () => clearTimeout(f);
   }, [tab]);
+
+  // after an error the card shakes; put the caret back in the password field
+  useEffect(() => {
+    if (shake) pwRef.current?.focus();
+  }, [shake]);
 
   // live countdown while locked out
   useEffect(() => {
@@ -111,7 +117,7 @@ export function AuthCard() {
   const lockedMsg = lockLeft > 0 ? fmt(t.auth.errors.locked, { n: lockLeft }) : null;
 
   return (
-    <div key={shake} className={cn("auth-card card !bg-surface", shake > 0 && "shake")}>
+    <div className={cn("auth-card card !bg-surface", shake % 2 === 1 && "shake", shake > 0 && shake % 2 === 0 && "shake-b")}>
       <div role="tablist" aria-label={t.auth.tabs} onKeyDown={onTabKey} className="relative grid grid-cols-2 rounded-full bg-bg-2 border border-line p-1 mb-7">
         <span aria-hidden className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-full bg-surface shadow-[var(--shadow-1)] transition-transform duration-300 ease-[var(--ease)]" style={{ transform: tab === "up" ? "translateX(100%)" : "none" }} />
         {(["in", "up"] as const).map((k, i) => (
@@ -195,6 +201,7 @@ export function AuthCard() {
         >
           <div className="relative">
             <input
+              ref={pwRef}
               id={`${uid}-pw`}
               type={show ? "text" : "password"}
               className={cn(fieldClass, "pr-12")}
@@ -252,7 +259,7 @@ export function AuthCard() {
         </Button>
       </form>
 
-      <div className="flex items-center gap-3 my-5 text-[12px] font-semibold text-ink-3 uppercase tracking-[0.1em]" aria-hidden>
+      <div className="or-sep flex items-center gap-3 my-5 text-[12px] font-semibold text-ink-3 uppercase tracking-[0.1em]" aria-hidden>
         <span className="h-px flex-1 bg-line" />
         {t.auth.or}
         <span className="h-px flex-1 bg-line" />

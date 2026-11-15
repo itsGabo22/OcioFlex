@@ -84,7 +84,7 @@ export const en = {
     morning: "Good morning", afternoon: "Good afternoon", evening: "Good evening", greetName: "{greeting}, {name}",
     startSession: "Start a {n}-min session",
     focusToday: "of focus today", restToday: "of leisure today", balance: "Today's balance", target: "target {n}:{m}", balanceAria: "Focus {f} percent, leisure {l} percent, target {t} percent focus",
-    goalTitle: "Weekly goal", goalOf: "of {n} h", goalLeft: "{n} to go", goalMet: "Goal met. Nice work.", goalAria: "{p} percent of your weekly focus goal",
+    goalTitle: "Weekly goal", goalOf: "of {n} h", goalLeft: "{n} to go", goalMet: "Goal met", goalAria: "{p} percent of your weekly focus goal",
     statSessions: "Sessions today", statStreak: "Focus streak", statBest: "Best day",
     heatTitle: "Last 12 weeks", heatSub: "Focus minutes per day", less: "Less", more: "More", heatCell: "{date}: {n} min of focus", heatEmpty: "{date}: no focus",
     weekTitle: "This week", weekSub: "Focus minutes, Monday to Sunday", weekBar: "{day}: {n} min",
@@ -135,7 +135,7 @@ export const en = {
       confirm: "Click again to confirm",
       seedTasks: "Design report|Interface prototype|Reading|Code review|Study session|Wireframes|Presentation|Research notes",
     },
-    about: { title: "About", version: "Version {v}", credits: "Fonts: Fraunces, Instrument Sans, Geist Mono (SIL OFL). Icons: Lucide (ISC). 3D: three.js (MIT)." },
+    about: { title: "About", version: "Version {v}", credits: "Fonts: Fraunces, Instrument Sans (SIL OFL). Icons: Lucide (ISC). 3D: three.js (MIT)." },
   },
   toast: {
     sessionSaved: "Session saved", restSaved: "Rest logged", keySaved: "Key saved securely", keyRemoved: "Key removed", dataSeeded: "Sample data added", dataCleared: "Sessions cleared",

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "@fontsource-variable/fraunces/full.css";
 import "@fontsource-variable/instrument-sans/index.css";
-import "@fontsource-variable/geist-mono/index.css";
 import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
 import { AppShell } from "@/components/shell/AppShell";

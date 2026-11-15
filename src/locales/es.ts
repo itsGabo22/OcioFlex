@@ -86,7 +86,7 @@ export const es: Dict = {
     morning: "Buenos días", afternoon: "Buenas tardes", evening: "Buenas noches", greetName: "{greeting}, {name}",
     startSession: "Empezar sesión de {n} min",
     focusToday: "de foco hoy", restToday: "de ocio hoy", balance: "Equilibrio de hoy", target: "objetivo {n}:{m}", balanceAria: "Foco {f} por ciento, ocio {l} por ciento, objetivo {t} por ciento de foco",
-    goalTitle: "Meta semanal", goalOf: "de {n} h", goalLeft: "faltan {n}", goalMet: "Meta cumplida. Bien hecho.", goalAria: "{p} por ciento de tu meta semanal de foco",
+    goalTitle: "Meta semanal", goalOf: "de {n} h", goalLeft: "faltan {n}", goalMet: "Meta cumplida", goalAria: "{p} por ciento de tu meta semanal de foco",
     statSessions: "Sesiones hoy", statStreak: "Racha de foco", statBest: "Mejor día",
     heatTitle: "Últimas 12 semanas", heatSub: "Minutos de foco por día", less: "Menos", more: "Más", heatCell: "{date}: {n} min de foco", heatEmpty: "{date}: sin foco",
     weekTitle: "Esta semana", weekSub: "Minutos de foco, de lunes a domingo", weekBar: "{day}: {n} min",
@@ -137,7 +137,7 @@ export const es: Dict = {
       confirm: "Pulsa otra vez para confirmar",
       seedTasks: "Informe de diseño|Prototipo de interfaz|Lectura|Revisión de código|Sesión de estudio|Wireframes|Presentación|Notas de investigación",
     },
-    about: { title: "Acerca de", version: "Versión {v}", credits: "Fuentes: Fraunces, Instrument Sans, Geist Mono (SIL OFL). Iconos: Lucide (ISC). 3D: three.js (MIT)." },
+    about: { title: "Acerca de", version: "Versión {v}", credits: "Fuentes: Fraunces, Instrument Sans (SIL OFL). Iconos: Lucide (ISC). 3D: three.js (MIT)." },
   },
   toast: {
     sessionSaved: "Sesión guardada", restSaved: "Descanso registrado", keySaved: "Clave guardada de forma segura", keyRemoved: "Clave eliminada", dataSeeded: "Datos de ejemplo añadidos", dataCleared: "Sesiones borradas",
