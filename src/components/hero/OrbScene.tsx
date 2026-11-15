@@ -7,8 +7,8 @@ import * as THREE from "three";
 
 type Mood = "foco" | "ocio";
 const PALETTE = {
-  foco: { base: new THREE.Color("#2fa39a"), glow: new THREE.Color("#9fe6da"), distort: 0.26, speed: 1.1, shadow: "#0f5f58" },
-  ocio: { base: new THREE.Color("#f08a58"), glow: new THREE.Color("#ffc9a8"), distort: 0.46, speed: 2.1, shadow: "#c2431f" },
+  foco: { base: new THREE.Color("#1f968c"), glow: new THREE.Color("#9fe6da"), distort: 0.26, speed: 1.1, shadow: "#0f5f58" },
+  ocio: { base: new THREE.Color("#ee7b45"), glow: new THREE.Color("#ffc9a8"), distort: 0.46, speed: 2.1, shadow: "#c2431f" },
 };
 
 type DistortMat = THREE.MeshPhysicalMaterial & { distort: number; speed: number };
@@ -50,9 +50,9 @@ function Orb({ mood, ratio }: { mood: Mood; ratio: number }) {
           metalness={0.08}
           clearcoat={1}
           clearcoatRoughness={0.08}
-          iridescence={0.85}
+          iridescence={0.55}
           iridescenceIOR={1.3}
-          envMapIntensity={1.35}
+          envMapIntensity={1.25}
         />
       </mesh>
     </group>
@@ -80,6 +80,11 @@ export default function OrbScene({ mood, ratio, running, onLost }: { mood: Mood;
       <Orb mood={mood} ratio={ratio} />
       <ContactShadows position={[0, -1.4, 0]} opacity={0.38} scale={6} blur={2.6} far={2.5} color={PALETTE[mood].shadow} />
       <Environment resolution={256} frames={1}>
+        {/* a softly lit "room" so grazing-angle reflections never go black */}
+        <mesh scale={60}>
+          <sphereGeometry args={[1, 32, 32]} />
+          <meshBasicMaterial color="#6e665a" side={THREE.BackSide} />
+        </mesh>
         <Lightformer form="rect" intensity={1.6} position={[0, 5, 2]} scale={[16, 6, 1]} color="#ffffff" />
         <Lightformer form="rect" intensity={1.1} position={[-5, 1, 0]} rotation-y={Math.PI / 2} scale={[12, 8, 1]} color="#fff3e6" />
         <Lightformer form="circle" intensity={1.5} position={[5, -1, 2]} rotation-y={-Math.PI / 2} scale={6} color={mood === "foco" ? "#9fe6da" : "#ffb38a"} />
