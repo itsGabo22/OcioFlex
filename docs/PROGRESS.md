@@ -7,4 +7,4 @@
 - WP6 done — Rust AI backend (d233146)
 - WP7 done — storage/persistence + AI UI (190d566)
 - WP8 done — ES/EN catalogs, OS default, Intl formatting
-- WP9 partial — icons, README, CREDITS done; installer build pending
+- WP9 done — icons, README, CREDITS, NSIS 5.45 MiB + MSI 6.86 MiB built; app launches and stays alive
