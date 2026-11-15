@@ -33,3 +33,42 @@ export async function openExternal(url: string): Promise<boolean> {
     return false;
   }
 }
+
+/** Shared localStorage helpers for the browser-review shims. Never used inside the desktop app. */
+export const shimStore = {
+  get<T>(key: string): T | undefined {
+    try {
+      const raw = localStorage.getItem("ocioflex:" + key);
+      return raw === null ? undefined : (JSON.parse(raw) as T);
+    } catch {
+      return undefined;
+    }
+  },
+  set(key: string, value: unknown) {
+    try {
+      if (value === undefined || value === null) localStorage.removeItem("ocioflex:" + key);
+      else localStorage.setItem("ocioflex:" + key, JSON.stringify(value));
+    } catch {
+      /* storage unavailable */
+    }
+  },
+};
+
+/** Release builds behave like an app, not a web page: no context menu, no reload keys. */
+export function lockDownWebview() {
+  if (!isTauri() || process.env.NODE_ENV !== "production") return;
+  window.addEventListener("contextmenu", (e) => {
+    const el = e.target as HTMLElement | null;
+    if (!el?.closest("input, textarea")) e.preventDefault();
+  });
+  window.addEventListener(
+    "keydown",
+    (e) => {
+      const k = e.key.toLowerCase();
+      if (k === "f5" || ((e.ctrlKey || e.metaKey) && (k === "r" || k === "p" || k === "u")) || (e.ctrlKey && e.shiftKey && (k === "i" || k === "j" || k === "c"))) {
+        e.preventDefault();
+      }
+    },
+    true,
+  );
+}
