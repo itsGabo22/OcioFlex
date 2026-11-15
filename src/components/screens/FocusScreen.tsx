@@ -45,7 +45,7 @@ export function FocusScreen() {
     <div>
       <PageHeader eyebrow={t.focus.eyebrow} title={t.focus.title} />
       <div className="grid gap-5 grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-        <section className="card p-8 flex flex-col items-center rise" style={{ ["--i" as string]: 1 }}>
+        <section className="card px-8 py-7 flex flex-col items-center rise" style={{ ["--i" as string]: 1 }}>
           <label className="w-full">
             <span className="meta block mb-2">{t.focus.taskLabel}</span>
             <input
@@ -58,8 +58,8 @@ export function FocusScreen() {
               style={{ fontWeight: 400, letterSpacing: "-0.01em" }}
             />
           </label>
-          <div className="my-8">
-            <TimerDial size={400} progress={focusTimer ? elapsed / planned : 0} label={status} digits={fmtClock(focusTimer ? remaining : planned)} pulse={recent}>
+          <div className="my-6">
+            <TimerDial size={320} progress={focusTimer ? elapsed / planned : 0} label={status} digits={fmtClock(focusTimer ? remaining : planned)} pulse={recent}>
               <p className="mt-4 text-[13px] text-ink-2 h-5">{focusTimer ? fmt(t.focus.minutesLeft, { n: Math.ceil(remaining / 60_000) }) : fmt(t.focus.planned, { n: minutes })}</p>
             </TimerDial>
           </div>
@@ -78,7 +78,7 @@ export function FocusScreen() {
               </>
             )}
           </div>
-          <div className={cn("mt-6 flex items-center gap-3 transition-opacity", focusTimer && "opacity-40 pointer-events-none")}>
+          <div className={cn("mt-5 flex items-center gap-3 transition-opacity", focusTimer && "opacity-40 pointer-events-none")}>
             <span className="meta">{t.focus.presets}</span>
             <Segmented label={t.focus.presets} value={minutes} onChange={setMinutes} options={options.map((m) => ({ value: m, label: `${m}′` }))} />
           </div>

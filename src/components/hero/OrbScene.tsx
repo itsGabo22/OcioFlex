@@ -38,7 +38,7 @@ function Orb({ mood, ratio }: { mood: Mood; ratio: number }) {
   return (
     <group ref={group}>
       <mesh castShadow>
-        <sphereGeometry args={[1.22, 128, 128]} />
+        <sphereGeometry args={[1.08, 128, 128]} />
         <MeshDistortMaterial
           ref={mat as never}
           color={PALETTE.foco.base}
@@ -78,11 +78,11 @@ export default function OrbScene({ mood, ratio, running, onLost }: { mood: Mood;
       <ambientLight intensity={0.5} />
       <directionalLight position={[3, 4, 3]} intensity={1.4} />
       <Orb mood={mood} ratio={ratio} />
-      <ContactShadows position={[0, -1.55, 0]} opacity={0.38} scale={6} blur={2.6} far={2.5} color={PALETTE[mood].shadow} />
+      <ContactShadows position={[0, -1.4, 0]} opacity={0.38} scale={6} blur={2.6} far={2.5} color={PALETTE[mood].shadow} />
       <Environment resolution={256} frames={1}>
-        <Lightformer form="rect" intensity={3} position={[0, 5, 2]} scale={[10, 3, 1]} color="#ffffff" />
-        <Lightformer form="rect" intensity={2} position={[-5, 1, 0]} rotation-y={Math.PI / 2} scale={[6, 4, 1]} color="#fff3e6" />
-        <Lightformer form="circle" intensity={2.4} position={[5, -1, 2]} rotation-y={-Math.PI / 2} scale={3} color={mood === "foco" ? "#9fe6da" : "#ffb38a"} />
+        <Lightformer form="rect" intensity={1.6} position={[0, 5, 2]} scale={[16, 6, 1]} color="#ffffff" />
+        <Lightformer form="rect" intensity={1.1} position={[-5, 1, 0]} rotation-y={Math.PI / 2} scale={[12, 8, 1]} color="#fff3e6" />
+        <Lightformer form="circle" intensity={1.5} position={[5, -1, 2]} rotation-y={-Math.PI / 2} scale={6} color={mood === "foco" ? "#9fe6da" : "#ffb38a"} />
         <Lightformer form="rect" intensity={1.2} position={[0, -4, 1]} scale={[10, 2, 1]} color="#f7f3ec" />
       </Environment>
     </Canvas>

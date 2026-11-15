@@ -38,8 +38,8 @@ export function TimerDial({ progress, label, digits, size = 400, pulse, children
         />
       )}
       <div className="relative z-10 flex flex-col items-center">
-        <p className="meta mb-4 text-accent">{label}</p>
-        <p className="display-timer text-[112px] text-ink tabular-nums" aria-live="off">{digits}</p>
+        <p className="meta mb-3 text-accent">{label}</p>
+        <p className="display-timer text-ink tabular-nums" style={{ fontSize: size * 0.27 }} aria-live="off">{digits}</p>
         {children}
       </div>
     </div>

@@ -37,7 +37,7 @@ function HeatCell({ minutes, label, empty }: { minutes: number; label: string; e
   return (
     <div
       title={empty ? undefined : label}
-      className={cn("aspect-square rounded-[7px] transition-transform duration-200", !empty && "hover:scale-125")}
+      className={cn("h-[27px] rounded-[8px] transition-transform duration-200", !empty && "hover:scale-125")}
       style={{ background: empty ? "transparent" : level === 0 ? "var(--bg-2)" : `color-mix(in srgb, var(--accent) ${pct}%, var(--surface))` }}
     />
   );

@@ -1,3 +1,5 @@
+mod ai;
+
 use tauri::Manager;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -5,6 +7,7 @@ pub fn run() {
   tauri::Builder::default()
     .plugin(tauri_plugin_store::Builder::default().build())
     .plugin(tauri_plugin_opener::init())
+    .invoke_handler(tauri::generate_handler![ai::ai_status, ai::ai_generate, ai::ai_set_key, ai::ai_clear_key])
     .setup(|app| {
       if cfg!(debug_assertions) {
         app.handle().plugin(

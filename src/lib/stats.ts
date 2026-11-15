@@ -104,5 +104,12 @@ export function makeSeed(tasks: string[], now = Date.now()): Session[] {
       cursor = end + (rest + 30) * 60_000;
     }
   }
-  return out;
+  // today: two finished blocks just before now so the demo never looks empty
+  const tEnd1 = now - 25 * 60_000;
+  const tEnd0 = tEnd1 - 75 * 60_000;
+  const mk = (end: number, mins: number, i: number) => ({ id: `seed-t-${i}`, kind: "focus" as const, start: end - mins * 60_000, end, task: tasks[(i * 3 + 1) % tasks.length], plannedMin: mins, seed: true });
+  const todayBlocks = [mk(tEnd0, 45, 0), mk(tEnd1, 45, 1)].filter((s) => s.start >= base);
+  const kept = out.filter((s) => s.start < base);
+  const restBlock: Session = { id: "seed-t-r", kind: "rest", start: tEnd1 + 5 * 60_000, end: tEnd1 + 20 * 60_000, task: "", plannedMin: 0, seed: true };
+  return [...kept, ...todayBlocks, ...(todayBlocks.length ? [restBlock] : [])];
 }
