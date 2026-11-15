@@ -44,7 +44,11 @@ export const stage = {
   },
 };
 
+/** dev-only QA switches: ?nogl forces the CSS fallback, ?reduced simulates prefers-reduced-motion */
+const devFlag = (k: string) => process.env.NODE_ENV !== "production" && typeof location !== "undefined" && new URLSearchParams(location.search).has(k);
+
 export function hasWebGL() {
+  if (devFlag("nogl")) return false;
   try {
     const c = document.createElement("canvas");
     return !!(c.getContext("webgl2") || c.getContext("webgl"));
@@ -53,6 +57,13 @@ export function hasWebGL() {
   }
 }
 
-export const prefersReducedMotion = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+/** dev-only: ?t=1.2 pins the splash at that second so single frames can be reviewed */
+export const splashFreeze = (): number | null => {
+  if (process.env.NODE_ENV === "production" || typeof location === "undefined") return null;
+  const v = new URLSearchParams(location.search).get("t");
+  return v ? Number(v) : null;
+};
+
+export const prefersReducedMotion = () => typeof window !== "undefined" && (devFlag("reduced") || window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
 if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") (window as unknown as { __stage?: typeof stage }).__stage = stage;

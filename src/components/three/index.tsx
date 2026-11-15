@@ -11,11 +11,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, Environment, Lightformer, MeshDistortMaterial, PerformanceMonitor } from "@react-three/drei";
 import * as THREE from "three";
-import { stage, type Palette } from "@/lib/stage";
+import { stage, splashFreeze, type Palette } from "@/lib/stage";
+
+const FREEZE = typeof window !== "undefined" ? splashFreeze() : null;
 
 const PAL = {
   foco: { base: new THREE.Color("#0f8077"), glow: new THREE.Color("#7fd9cb"), distort: 0.24, speed: 1.0, a: new THREE.Color("#1f9a8f"), b: new THREE.Color("#7fd9cb"), light: "#9fe6da", room: "#a9cfc6" },
-  ocio: { base: new THREE.Color("#e0653a"), glow: new THREE.Color("#ffb38a"), distort: 0.34, speed: 1.7, a: new THREE.Color("#e2683d"), b: new THREE.Color("#ffb38a"), light: "#ffc29e", room: "#e9c1aa" },
+  ocio: { base: new THREE.Color("#e0653a"), glow: new THREE.Color("#ffb38a"), distort: 0.34, speed: 1.7, a: new THREE.Color("#d9532f"), b: new THREE.Color("#f7a072"), light: "#ffc29e", room: "#e9c1aa" },
 };
 const FOCUS_COL = new THREE.Color("#1f8a80");
 const LEISURE_COL = new THREE.Color("#e2683d");
@@ -96,7 +98,7 @@ void main(){
   gl_Position = projectionMatrix * mv;
   gl_PointSize = uSize * (0.5 + aSeed) * uPR * (8. / -mv.z);
   float orbFade = aKind < 0.5 ? 1. - uIgnite : 1.;
-  vAlpha = orbFade * (1. - uBurst) * (0.25 + 0.75 * p);
+  vAlpha = orbFade * (1. - uBurst) * (0.42 + 0.58 * p);
   vec3 c = mix(uColA, uColB, fract(aSeed * 7.13));
   if (uMode > .5) c = aSeed < uRatio ? uColFocus : uColLeisure;
   vCol = c;
@@ -111,7 +113,7 @@ void main(){
   if (r > .5) discard;
   float a = smoothstep(.5, 0., r);
   vec3 col = mix(vCol, vec3(1.), smoothstep(.25, 0., r) * .7);
-  gl_FragColor = vec4(col, a * vAlpha * .9);
+  gl_FragColor = vec4(col, min(1., a * vAlpha * 1.15));
 }`;
 
 function makeParticleGeometry(count: number, ringShare: number, ringR: [number, number]) {
@@ -126,7 +128,7 @@ function makeParticleGeometry(count: number, ringShare: number, ringR: [number, 
     // start: a wide shell around the orb
     const u = rnd() * 2 - 1;
     const th = rnd() * Math.PI * 2;
-    const rr = 3 + rnd() * 5;
+    const rr = 2.6 + rnd() * 4;
     const sq = Math.sqrt(1 - u * u);
     start.set([sq * Math.cos(th) * rr, u * rr * 0.75, sq * Math.sin(th) * rr], i * 3);
     // orb surface (fibonacci sphere keeps it even)
@@ -169,7 +171,7 @@ function useParticles(max: number, ringShare: number, ringR: [number, number], m
         depthWrite: false,
         uniforms: {
           uTime: { value: 0 }, uConverge: { value: mode ? 1 : 0 }, uIgnite: { value: mode ? 1 : 0 }, uBurst: { value: 0 },
-          uSize: { value: mode ? 3.3 : 5.2 }, uPR: { value: gl.getPixelRatio() }, uRingSpeed: { value: 0.25 }, uRatio: { value: 0.5 }, uMode: { value: mode }, uTilt: { value: 0.42 },
+          uSize: { value: mode ? 3.3 : 4.3 }, uPR: { value: gl.getPixelRatio() }, uRingSpeed: { value: 0.25 }, uRatio: { value: 0.5 }, uMode: { value: mode }, uTilt: { value: 0.42 },
           uColA: { value: PAL.foco.a.clone() }, uColB: { value: PAL.foco.b.clone() }, uColFocus: { value: FOCUS_COL }, uColLeisure: { value: LEISURE_COL },
         },
       }),
@@ -194,6 +196,7 @@ function StageOrb({ low }: { low: boolean }) {
   const spin = useRef<THREE.Group>(null);
   const mat = useRef<DistortMat>(null);
   const sweep = useRef<THREE.PointLight>(null);
+  const orb = useRef<THREE.Mesh>(null);
   const { viewport, size } = useThree();
   const { geometry, material } = useParticles(4000, 0.3, RING_STAGE, 0);
   const clock = useRef({ t: 0, started: false, scale: 0.0001, x: 0, y: 0, burst: 0 });
@@ -215,6 +218,7 @@ function StageOrb({ low }: { low: boolean }) {
     }
     // timeline runs on wall-clock time (capped), so a slow or throttled frame never desyncs it from the DOM
     c.t += Math.min(rawDt, 0.5) * (stage.skip && c.t < 2.4 ? 4 : 1);
+    if (FREEZE !== null) c.t = Math.min(c.t, FREEZE);
     const t = c.t;
     const now = performance.now();
     const pal = PAL[stage.palette];
@@ -228,7 +232,6 @@ function StageOrb({ low }: { low: boolean }) {
     // intro: orb scales in once the particles have arrived
     const intro = smooth(1.05, 1.9, t);
     const back = intro < 1 ? 1 + Math.sin(intro * Math.PI) * 0.06 : 1;
-    ts *= Math.max(0.0001, intro * back);
     const burstT = stage.burstAt ? (now - stage.burstAt) / 1000 : 0;
     c.burst = stage.burstAt ? smooth(0, 0.9, burstT) : 0;
     ts *= 1 + c.burst * 3.2;
@@ -237,7 +240,8 @@ function StageOrb({ low }: { low: boolean }) {
     const firstPlace = c.x === 0 && c.y === 0;
     c.x = firstPlace ? tx : THREE.MathUtils.lerp(c.x, tx, k);
     c.y = firstPlace ? ty : THREE.MathUtils.lerp(c.y, ty, k);
-    c.scale = THREE.MathUtils.lerp(c.scale, ts, intro < 1 ? 1 : ease(0.01, dt));
+    c.scale = c.scale < 0.001 ? ts : THREE.MathUtils.lerp(c.scale, ts, ease(0.01, dt));
+    if (orb.current) orb.current.scale.setScalar(Math.max(0.0001, intro * back));
     g.position.set(c.x + stage.lean.x * 0.08 * c.scale, c.y + stage.lean.y * 0.06 * c.scale, 0);
     g.scale.setScalar(Math.max(0.0001, c.scale) * (1 + 0.045 * Math.exp(-(now - stage.pulseAt) / 140)));
 
@@ -279,7 +283,7 @@ function StageOrb({ low }: { low: boolean }) {
   return (
     <group ref={group}>
       <group ref={spin}>
-        <mesh renderOrder={0}>
+        <mesh ref={orb} renderOrder={0}>
           <sphereGeometry args={[1, 128, 128]} />
           <OrbMaterial mat={mat} />
         </mesh>

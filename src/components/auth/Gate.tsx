@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from
 import { usePathname, useRouter } from "next/navigation";
 import { LockKeyhole } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { stage, hasWebGL, prefersReducedMotion } from "@/lib/stage";
+import { stage, hasWebGL, prefersReducedMotion, splashFreeze } from "@/lib/stage";
 import { Segmented } from "@/components/ui/primitives";
 import { StageScene, GlBoundary } from "./StageCanvas";
 import { AuthCard } from "./AuthCard";
@@ -37,7 +37,11 @@ export function Gate({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const path = usePathname();
 
-  const later = (ms: number, f: () => void) => timers.current.push(window.setTimeout(f, ms));
+  const later = (ms: number, f: () => void) => {
+    const fz = splashFreeze();
+    if (fz !== null && ms > fz * 1000) return; // dev frame review: stop the timeline at ?t=
+    timers.current.push(window.setTimeout(f, ms));
+  };
   const setPalette = (p: "foco" | "ocio") => {
     stage.palette = p;
     document.documentElement.dataset.ctx = p;
@@ -183,13 +187,13 @@ export function Gate({ children }: { children: React.ReactNode }) {
     if (view === "splash" && !introDone) {
       const d = Math.min(H * 0.34, 300);
       a = { x: W / 2, y: H * 0.42, d };
-      const s = W >= 1100 ? 1.12 : 1.4;
+      const s = W >= 900 ? 1.12 : 1.4;
       w = { x: W / 2 - (bw * s) / 2, y: a.y + d / 2 + 34, s, center: true };
     } else {
       const r = slot.getBoundingClientRect();
       a = { x: r.left + r.width / 2, y: r.top + r.height / 2, d: r.width };
       const b = slotBrand.getBoundingClientRect();
-      w = { x: b.left, y: b.top, s: 1, center: W >= 1100 };
+      w = { x: b.left, y: b.top, s: 1, center: W >= 900 };
     }
     void bh;
     stage.anchor = a;
@@ -278,7 +282,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
           )}
 
           {landed && view !== "leaving" && (
-            <div className="absolute top-5 left-6 z-20 stage-fade">
+            <div className="lang-toggle absolute top-5 left-6 z-20 stage-fade">
               <Segmented size="sm" label={t.auth.language} value={lang} onChange={setLang} options={[{ value: "es", label: "ES" }, { value: "en", label: "EN" }]} />
             </div>
           )}
@@ -301,11 +305,10 @@ function CssOrb({ geo, phase, reduced }: { geo: Geo; phase: number; reduced: boo
           ))}
         </div>
       )}
-      <div
-        className={cn("css-orb absolute rounded-full", reduced ? "css-orb-fade" : "css-orb-in")}
-        style={{ width: a.d, height: a.d, transform: `translate(${a.x - a.d / 2}px, ${a.y - a.d / 2}px)` }}
-      >
-        <div className="blob h-full w-full" />
+      <div className="css-orb absolute" style={{ width: a.d, height: a.d, transform: `translate(${a.x - a.d / 2}px, ${a.y - a.d / 2}px)` }}>
+        <div className={cn("h-full w-full", reduced ? "css-orb-fade" : "css-orb-in")}>
+          <div className="blob h-full w-full" />
+        </div>
       </div>
     </div>
   );
