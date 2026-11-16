@@ -1,13 +1,5 @@
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { KpiGrid } from "@/components/dashboard/KpiGrid";
-import { MainVisualContainer } from "@/components/dashboard/MainVisualContainer";
+import { HomeScreen } from "@/components/screens/HomeScreen";
 
-export default function Home() {
-  return (
-    <div className="flex flex-col w-full max-w-[1600px] mx-auto animate-fade-in duration-500">
-      <DashboardHeader />
-      <KpiGrid />
-      <MainVisualContainer />
-    </div>
-  );
+export default function Page() {
+  return <HomeScreen />;
 }
